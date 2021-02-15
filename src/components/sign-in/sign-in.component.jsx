@@ -1,4 +1,6 @@
 import React from 'react';
+import CustomButton from '../custom-button/custom-button.component';
+import FormInput from '../form-input/form-input.component';
 
 import './sign-in.style.scss'; 
 
@@ -21,8 +23,14 @@ class SignIn extends React.Component {
         })
     }
 
-    handleChange = ({ name, value }) => {
+    // takes an event, gets the target value and name and sets it to the state, this is to allow
+    // form component to be reused
+    handleChange = event => {
+        // pull the value and name of the event target which is the input value
+        const { value, name } = event.target;
 
+        // then set the state of that name to the value
+        this.setState({ [name]: value })
     }
 
     render() {
@@ -32,11 +40,11 @@ class SignIn extends React.Component {
                 <span>Sign in with your email and password</span> 
 
                 <form onSubmit={this.handleSubmit}>
-                    <input type="email" name="email" onChange={this.handleChange} value={this.state.email} required />
-                    <label>Email</label>
-                    <input type="password" name="password" onChange={this.handleChange} value={this.state.password} required/>
-                    <label>Password</label>
-                    <input type="submit" value="Submit Form" />
+                    <FormInput handleChange={this.handleChange} type="email" name="email" value={this.state.email} required label="Email" />
+                    <FormInput handleChange={this.handleChange} type="password" name="password"  value={this.state.password} required label="Password" />
+                    <CustomButton type="submit">
+                        Sign In
+                    </CustomButton>
                 </form>
             </div>
         )
