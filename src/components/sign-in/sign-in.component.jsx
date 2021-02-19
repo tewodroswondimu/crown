@@ -1,6 +1,7 @@
 import React from 'react';
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
+import { auth } from '../../firebase/firebase.utils';
 
 import './sign-in.style.scss'; 
 
@@ -16,13 +17,22 @@ class SignIn extends React.Component {
         }
     }
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault()
 
-        this.setState({
-            email: '', 
-            password: ''
-        })
+        const { email, password } = this.state
+
+        try {
+            await auth.signInWithEmailAndPassword(email, password)
+            // clear our form
+            this.setState({
+                email: '', 
+                password: ''
+            })
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     // takes an event, gets the target value and name and sets it to the state, this is to allow

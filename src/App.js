@@ -39,8 +39,6 @@ class App extends React.Component {
           }, () => { // call back function because setState is an asynchronous function
             // console.log(this.state.currentUser);
           })
-
-          console.log(this.state)
         })
       }
       else {
