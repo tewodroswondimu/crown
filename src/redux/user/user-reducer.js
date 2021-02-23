@@ -1,3 +1,5 @@
+import { UserActionTypes } from './user.types';
+
 const INITIAL_STATE = {
     currentUser: null
 }
@@ -7,7 +9,7 @@ const INITIAL_STATE = {
 const userReducer = (currentState = INITIAL_STATE, action) => {
 	switch(action.type) {
 		// if the type is to set the current user
-		case 'SET_CURRENT_USER': 
+		case UserActionTypes.SET_CURRENT_USER: 
 			// then we return a new object, note here that we can modify
 			// currentState but we choose to send a new object instead
 			// because a new object means the component that receives it

@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions'
 
@@ -69,7 +69,12 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={HomePage}/> 
           <Route path='/shop' component={ShopPage}/> 
-          <Route path='/signin' component={SignInAndSignUp}/>
+          {/* render is like our class component mehtod, it determines what component to display */}
+          <Route exact path='/signin' render={
+            () => this.props.currentUser ? 
+            (<Redirect to='/' />) : 
+            (<SignInAndSignUp />)
+          }/>
         </Switch> 
       </div>
     );
@@ -82,4 +87,9 @@ const mapDispatchStateToProp = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)) 
 })
 
-export default connect(null, mapDispatchStateToProp)(App);
+// this allows the App component to have access to the user 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+})
+
+export default connect(mapStateToProps, mapDispatchStateToProp)(App);
