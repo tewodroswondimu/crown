@@ -31,18 +31,27 @@ export const removeItemFromCart = (cartItemToRemove, cartItems) => {
     )
 
     // check if the item already exists in the list of cart items
-    if (existingCartItem) {
+    if (existingCartItem.quantity === 1) {
+        return clearItemFromCart(cartItemToRemove, cartItems)
+    } else {
+
         // if it does, then map through each of the cart items
         // when the cart item that has the same id is found,
         // return an object with the cart item and add 1 to the 
         // property called quantity 
         return cartItems.map(cartItem =>
-            cartItem.id === cartItemToRemove.id && cartItem.quantity > 1
+            cartItem.id === cartItemToRemove.id
             ? { ...cartItem, quantity: cartItem.quantity - 1 }
-            : null
+            : cartItem
         )
-    } else {
+
         // if it does not exist, just return 
         return cartItems
     }
+}
+
+export const clearItemFromCart = (cartItemToRemove, cartItems) => {
+    return cartItems.filter(cartItem =>
+        cartItem.id !== cartItemToRemove.id
+    )
 }
