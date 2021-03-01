@@ -12,7 +12,9 @@ import ShopPage from './pages/shoppage/shoppage.component';
 import CheckOutPage from './pages/checkout/checkout.component';
 
 import SignInAndSignUp from './pages/sign-in-sign-up/sign-in-and-sign-up.component';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils'
+import { auth, createUserProfileDocument, addCollectionAndDocument } from './firebase/firebase.utils'
+
+import { selectCollectionsForPreview } from './redux/shop/shop.selector'
 
 class App extends React.Component {
   // constructor() {
@@ -26,8 +28,15 @@ class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
 
+    const { setCurrentUser, collectionsArray } = this.props;
+
+    // addCollectionAndDocument('collections', collectionsArray.map(
+    //   ({title, items}) => ({
+    //             title: title, 
+    //             items: items
+    // })));
+    
     // the parameter user is what the user state is on our firebase is
     // we initialize with a variable so that we can close it when we unmount
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -94,7 +103,8 @@ const mapDispatchStateToProp = dispatch => ({
 
 // this allows the App component to have access to the user 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser, 
+  collectionsArray: selectCollectionsForPreview
 })
 
 export default connect(mapStateToProps, mapDispatchStateToProp)(App);

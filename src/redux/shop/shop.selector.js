@@ -9,12 +9,12 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
     [selectCollections], 
-    collections => Object.values(collections)
+    collections => collections ? Object.values(collections) : []
 )
 
 export const selectCollection = collectionUrlParam => createSelector(
     [selectCollections],
-    collections => collections[collectionUrlParam]
+    collections => collections ? collections[collectionUrlParam] : null
     // when using an array, instead of an object 
     // collections.find(
     //     collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam]
